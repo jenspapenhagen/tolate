@@ -36,5 +36,13 @@ class inputHandler{
 		
 		return false;
 	}
-	
+
+    public function cleanString(string $input):string{
+        $string = filter_var($input, FILTER_SANITIZE_STRING);
+
+    return $string;
+    }
+
+
+
 }

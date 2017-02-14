@@ -4,19 +4,12 @@ if ( empty($_POST) ){
     exit();
 }
 
-include_once "Handler/fileHandler.php";
 include_once "Handler/inputHandler.php";
+include_once "Handler/ConnectionProvider.php";
+include_once "Handler/dbHandler.php";
+include_once "Handler/Constants.php";
 
- //Array ( [name] => abec [time] => 20 [ursache] => asdasdasdsad [entschuldtigt] => 1 [form_id] => 12757 [submit] => Abschicken ) 
-
-$fileHandler;
-$inputHandler;
-
-	$fileHandler = new fileHandler();
-	$inputHandler = new inputHandler();
-
-
-
+//default werte
 $name = "";
 $time = 0;
 $ursache = "";
@@ -24,9 +17,15 @@ $entschuldtigt=0;
 $form_id =0;
 
 
+//ini
+$inputHandler;
+$dbHandler = new dbHandler;
+$inputHandler = new inputHandler();
+$PDO = ConnectionProvider::getConnection();
 
+//input check
 if(isset($_POST['name']) AND $inputHandler->isString($_POST['name'])){
-	$name = $_POST['name'];
+	$name = $inputHandler->cleanString($_POST['name']);
 }else{
 	echo "keine Name angegeben";
 }
@@ -38,7 +37,7 @@ if(isset($_POST['time']) AND $inputHandler->isInt($_POST['time'])){
 }
 
 if(isset($_POST['ursache']) AND $inputHandler->isString($_POST['ursache'])){
-    $ursache = $_POST['ursache'];
+    $ursache = $inputHandler->cleanString($_POST['ursache']);
 }else{
     echo "keine Ursache angegeben";
 }
@@ -55,31 +54,25 @@ if(isset($_POST['entschuldtigt']) AND $inputHandler->isInt($_POST['entschuldtigt
 if(isset($_POST['form_id']) AND $inputHandler->isInt($_POST['form_id'])){
     $form_id = $_POST['form_id'];
 }else{
-    $form_id = random_int(10000, 99999);
+    die("nice try");
 }
 
+//getToday
+$dt = new DateTime();
+$today = $dt->format('Y-m-d');
 
-$jsonfile ="data.json";
-if (!$fileHandler->FileExists($jsonfile)){
-    echo "JSON file nicht gefunden";
-}
+//db felder id ist AUTO
+//id date name delaytime ursache entschuldigt
+$input = array (
+    'id' => ($dbHandler->lastId() + 1),
+    'date' =>$today,
+    'name' =>$name,
+    'delaytime' =>$time,
+    'ursache' =>$ursache,
+    'entschuldigt' =>$entschuldtigt
+);
 
-$file = file_get_contents($jsonfile);
-$data = json_decode($file);
-unset($file);
-//insert data here
-$data[] = array(
-            $form_id => array(
-                'name' => $name,
-                'time'=>$time,
-                'ursache'=>$ursache,
-                'entschuldtigt'=>$entschuldtigt
-            )
-    );
-
-//save the file
-file_put_contents('data.json',json_encode($data));
-unset($data);//release memory
+$dbHandler->addEntity($input);
 
 echo "<h1>gespeichert</h1>";
 echo '<meta http-equiv="refresh" content="1; url=index.php">';

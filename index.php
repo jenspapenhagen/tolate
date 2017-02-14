@@ -4,7 +4,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="css/view.css" media="all">
-    <script type="text/javascript" src="view.js"></script>
     <style type="text/css">
         .rand08 {
             border: 1px solid #2C6ED5;
@@ -37,37 +36,31 @@
     <div class="form_description">
         <h2>Verspätungen</h2>
         <p>Auslistung</p>
-        <a href="form.php">Zum eintagen hier klicken</a>
+        <a href="form.php">Zum eintragen hier klicken</a>
     </div>
     <?php
-    $json = file_get_contents("data.json");
+	 include_once "Handler/dbHandler.php";
+     include_once "Handler/Constants.php";
 
-    $jsonIterator = new RecursiveIteratorIterator(
-        new RecursiveArrayIterator(json_decode($json, TRUE)),
-        RecursiveIteratorIterator::SELF_FIRST);
+		//id date name delaytime ursache entschuldigt
+		$dbHandler = new dbHandler;
+        echo '<center><table  class="rand08" >';
+        echo "<tr><th>Name</th><th>Verspätung in Minuten</th><th>Grund</th><th>Entschuldigt</th></tr>"."\n";
 
-    echo '<center><table  class="rand08" >';
-    echo "<tr><th>Name</th><th>Verspätung in Minuten</th><th>Grund</th><th>Entschuldigt</th></tr>"."\n";
-    foreach ($jsonIterator as $key => $val) {
-
-            if( isset($val['name']) ){
+		foreach ($dbHandler->findAllbyToday()as $row) {
                 echo "<tr>";
-                echo "<td>".$val['name']."</td>";
-            }
-            if( isset($val['time']) ){
-                echo "<td align=\"right\">".$val['time']."</td>";
-            }
-            if( isset($val['ursache']) ){
-                echo "<td>".$val['ursache']."</td>";
-            }
-            if( isset($val['entschuldtigt']) ){
-                echo "<td>".$val['entschuldtigt']."</td>";
+                echo "<td>".$row['name']."</td>";
+                echo "<td align=\"right\">".$row['delaytime']."</td>";
+                echo "<td>".$row['ursache']."</td>";
+                echo "<td>".$row['entschuldigt']."</td>";
                 echo "</tr>";
-            }
+        }
 
 
-    }
-    echo "</table></center>";
+        echo "</table></center>";
+
+        echo "<br><small>ingesammt gibt es: ".$dbHandler->countAll()." Einträge</small>";
+
     ?>
 <br>
 </div>
