@@ -4,10 +4,10 @@ include_once "Handler/Constants.php";
 
 class dbHandler{
 
-	private $findAll = "select * from ";
-	private $lastId = "select max(id) from ";
-	private $countAll = "select count(*) from ";
-	private $allColumnsName = "DESCRIBE tablename";
+	private $findAll = "SELECT * FROM ";
+	private $lastId = "SELECT max(id) FROM ";
+	private $countAll = "SELECT count(*) FROM ";
+	private $allColumnsName = "DESCRIBE ";
 
 
 	public function __construct(){
@@ -63,7 +63,7 @@ class dbHandler{
 	}
 	
 	public function listAllColumnsName(string $tableName): array{
-		$sql = "DESCRIBE ".$this->tablename.";";
+		$sql = $this->allColumnsName.$this->tablename.";";
 		$result = $this->PDO->prepare($sql);
 		$result->execute();
 		$table_fields = $result->fetchAll(PDO::FETCH_COLUMN);
