@@ -25,7 +25,7 @@ echo "</table></center>";
 
 echo "<br><small>Ingesamt gibt es: ".$dbHandler->countAll()." Einträge</small>";
 ?>
-<br>Hier zum <a href="index.php?page=vertretungsplan">Vertretungsplan</a>
+<br>Hier zum <a href="index.php?page=vertretungsplan">Vertretungsplan</a> | <a href="https://github.com/jenspapenhagen/tolate"> Source code</a>
 
 
 
