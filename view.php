@@ -24,6 +24,8 @@ foreach ($dbHandler->findAllbyToday()as $row) {
 echo "</table></center>";
 
 echo "<br><small>Ingesamt gibt es: ".$dbHandler->countAll()." Einträge</small>";
-
 ?>
+<br>Hier zum <a href="index.php?page=vertretungsplan">Vertretungsplan</a>
+
+
 
