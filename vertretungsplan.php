@@ -3,10 +3,10 @@ include_once "Handler/contentHandler.php";
 include_once "Handler/fileHandler.php";
 $contentHandler = new contentHandler();
 $fileHandler = new fileHandler();
-//$contentHandler->writeNewXML();
 
 $rawfile = "content/list.txt";
-if((isset($_GET["update"]) and $_GET["update"] == 1) OR filemtime($rawfile) < (time() - 300 )){
+if(filemtime($rawfile) < (time() - 1800 )){
+    //last curl have to be younger than 30min (30*60)
     $contentHandler->UPDATE();
 	$contentHandler->writeNewXML();
 	$contentHandler->ParseXMLToJSON("content.xml");

@@ -52,6 +52,9 @@
             case 'action':
                 $page = "action.php";
                 break;
+             case 'vertretungsplan':
+                 $page = "vertretungsplan.php";
+                 break;
 
             default:
                 $page = "view.php";
