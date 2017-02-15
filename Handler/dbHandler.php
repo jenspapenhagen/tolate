@@ -1,6 +1,7 @@
 <?php
 include_once "Handler/ConnectionProvider.php";
 include_once "Handler/Constants.php";
+include_once "Handler/usefullFuncs.php";
 
 class dbHandler{
 
@@ -12,6 +13,7 @@ class dbHandler{
 
 	public function __construct(){
 		$this->PDO = ConnectionProvider::getConnection();
+        $this->usefullFuncs = new usefullFuncs;
         if(isset(Constants::$tableName)){
             $this->tablename = Constants::$tableName;
         }else{
@@ -25,8 +27,7 @@ class dbHandler{
     }
 
 	public function findAllbyToday(){
-		$dt = new DateTime();
-		$today = $dt->format('Y-m-d');
+		$today = $this->usefullFuncs->getToday();
 
 		$sql = $this->findAll.$this->tablename." WHERE date = '$today';";
 		$result = $this->PDO->prepare($sql);

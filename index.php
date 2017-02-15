@@ -8,6 +8,7 @@
         .rand08 {
             border: 1px solid #2C6ED5;
             background-color: #C4D3F6;
+            width:79%;
         }
 
         .rand08 caption {
@@ -33,36 +34,35 @@
 <img id="top" src="img/top.png" alt="">
 <div id="form_container">
     <h1><br></h1>
-    <div class="form_description">
-        <h2>Verspätungen</h2>
-        <p>Auslistung</p>
-        <a href="form.php">Zum eintragen hier klicken</a>
-    </div>
+
     <?php
-	 include_once "Handler/dbHandler.php";
-     include_once "Handler/Constants.php";
+    $page = "view.php"; //default
 
-		//id date name delaytime ursache entschuldigt
-		$dbHandler = new dbHandler;
-        echo '<center><table  class="rand08" >';
-        echo "<tr><th>Name</th><th>Verspätung in Minuten</th><th>Grund</th><th>Entschuldigt</th></tr>"."\n";
+    if(isset($_GET['page'])){
+        $input = $_GET['page'];
+         switch ($input) {
+            case 'view':
+                $page = "view.php";
+                break;
 
-		foreach ($dbHandler->findAllbyToday()as $row) {
-                echo "<tr>";
-                echo "<td>".$row['name']."</td>";
-                echo "<td align=\"right\">".$row['delaytime']."</td>";
-                echo "<td>".$row['ursache']."</td>";
-                echo "<td>".$row['entschuldigt']."</td>";
-                echo "</tr>";
+            case 'form':
+                $page = "form.php";
+                break;
+
+            case 'action':
+                $page = "action.php";
+                break;
+
+            default:
+                $page = "view.php";
+                break;
+
         }
 
+    }
 
-        echo "</table></center>";
-
-        echo "<br><small>ingesammt gibt es: ".$dbHandler->countAll()." Einträge</small>";
-
+    include($page);
     ?>
-<br>
 </div>
 <img id="bottom" src="img/bottom.png" alt="">
 

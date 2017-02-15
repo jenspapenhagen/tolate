@@ -4,10 +4,11 @@ if ( empty($_POST) ){
     exit();
 }
 
-include_once "Handler/inputHandler.php";
 include_once "Handler/ConnectionProvider.php";
 include_once "Handler/dbHandler.php";
 include_once "Handler/Constants.php";
+include_once "Handler/inputHandler.php";
+include_once "Handler/usefullFuncs.php";
 
 //default werte
 $name = "";
@@ -18,10 +19,10 @@ $form_id =0;
 
 
 //ini
-$inputHandler;
 $dbHandler = new dbHandler;
-$inputHandler = new inputHandler();
 $PDO = ConnectionProvider::getConnection();
+$inputHandler = new inputHandler();
+$usefullFuncs = new usefullFuncs;
 
 //input check
 if(isset($_POST['name']) AND $inputHandler->isString($_POST['name'])){
@@ -57,9 +58,7 @@ if(isset($_POST['form_id']) AND $inputHandler->isInt($_POST['form_id'])){
     die("nice try");
 }
 
-//getToday
-$dt = new DateTime();
-$today = $dt->format('Y-m-d');
+$today = $usefullFuncs->getToday();
 
 //db felder id ist AUTO
 //id date name delaytime ursache entschuldigt
