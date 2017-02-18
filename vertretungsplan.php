@@ -5,12 +5,13 @@ $contentHandler = new contentHandler();
 $fileHandler = new fileHandler();
 
 $rawfile = "content/list.txt";
-if(filemtime($rawfile) < (time() - 1800 )){
+if(filemtime($rawfile) >= (time() - 1800 )){
     //last curl have to be younger than 30min (30*60)
     $contentHandler->UPDATE();
 	$contentHandler->writeNewXML();
 	$contentHandler->ParseXMLToJSON("content.xml");
 }
+
 if(isset($_REQUEST['callback']) and $_REQUEST['callback'] == "?" and file_exists("content.json") ){
 	header('Content-Type: text/javascript');
 	echo "callback (" ;

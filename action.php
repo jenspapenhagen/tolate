@@ -27,25 +27,31 @@ $usefullFuncs = new usefullFuncs;
 //input check
 if(isset($_POST['name']) AND $inputHandler->isString($_POST['name'])){
 	$name = $inputHandler->cleanString($_POST['name']);
+    $name = $inputHandler->cutToMaxInputLimit($name,50);
 }else{
 	echo "keine Name angegeben";
 }
 
 if(isset($_POST['time']) AND $inputHandler->isInt($_POST['time'])){
 	$time = $_POST['time'];
+    if($time != $inputHandler->date($time)){
+        echo "keine Zeit angegeben";
+    }
 }else{
 	echo "keine Zeit angegeben";
 }
 
 if(isset($_POST['ursache']) AND $inputHandler->isString($_POST['ursache'])){
     $ursache = $inputHandler->cleanString($_POST['ursache']);
+    $ursache = $inputHandler->cutToMaxInputLimit($ursache,250);
 }else{
     echo "keine Ursache angegeben";
 }
 
 if(isset($_POST['entschuldtigt']) AND $inputHandler->isInt($_POST['entschuldtigt'])){
-	if($_POST['entschuldtigt']==1 or $_POST['entschuldtigt'] == 0){
+	if($_POST['entschuldtigt'] == 1 or $_POST['entschuldtigt'] == 0){
 		$entschuldtigt=$_POST['entschuldtigt'];
+
 	}else{
 		$entschuldtigt=0;
 	}
