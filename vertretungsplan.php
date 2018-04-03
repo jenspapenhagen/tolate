@@ -5,7 +5,7 @@ $contentHandler = new contentHandler();
 $fileHandler = new fileHandler();
 
 $rawfile = "content/list.txt";
-if(filemtime($rawfile) >= (time() - 1800 )){
+if(filemtime($rawfile) <= (time() - 1800 )){
     //last curl have to be younger than 30min (30*60)
     $contentHandler->UPDATE();
 	$contentHandler->writeNewXML();
@@ -48,7 +48,7 @@ if(isset($_REQUEST['callback']) and $_REQUEST['callback'] == "?" and file_exists
 	echo '<a href="feed.xml"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Generic_Feed-icon.svg/250px-Generic_Feed-icon.svg.png" height="24" width="24" alt="RSS-Feed"></a>';
     echo '<br><a href="vertretungsplan.php?callback=?">JSON</a>&nbsp;&nbsp;';
 	if (file_exists($rawfile)) {
-		echo '<br>Last Update: '.date ("d F Y H:i:s.",filemtime($rawfile));
+		echo '<br>Last Update: '.$contentHandler->getStatus('list'); //date ("d F Y H:i:s.",filemtime($rawfile));
 	}
 }
 

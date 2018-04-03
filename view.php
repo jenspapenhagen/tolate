@@ -13,10 +13,14 @@ echo "<tr><th>Name</th><th>Verspätung in Minuten</th><th>Grund</th><th>Entschul
 
 foreach ($dbHandler->findAllbyToday()as $row) {
     echo "<tr>";
-    echo "<td>".$row['name']."</td>";
-    echo "<td align=\"right\">".$row['delaytime']."</td>";
-    echo "<td>".$row['ursache']."</td>";
-    echo "<td>".$row['entschuldigt']."</td>";
+    echo "<td width=\"10%\">".$row['name']."</td>";
+    echo "<td align=\"right\" width=\"20%\">".$row['delaytime']."</td>";
+	echo "<td width=\"60%\">".$row['ursache']."</td>";
+		if($row['entschuldigt'] == 1){
+			echo "<td width=\"10%\">ja</td>";
+		}else{
+			echo "<td width=\"10%\">nein</td>";
+		}     
     echo "</tr>";
 }
 
