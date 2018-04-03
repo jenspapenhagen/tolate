@@ -14,9 +14,7 @@ if(filemtime($rawfile) <= (time() - 1800 )){
 
 if(isset($_REQUEST['callback']) and $_REQUEST['callback'] == "?" and file_exists("content.json") ){
 	header('Content-Type: text/javascript');
-	echo "callback (" ;
 	include_once "content.json";
-	echo ");";
 }else{
 
 
