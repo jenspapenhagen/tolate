@@ -30,6 +30,7 @@
 		</li>		<li id="li_2" >
 		<label class="description" for="ursache">Ursache </label>
 		<div>
+			<textarea rows="4" cols="50" id="ursache" name="ursache" placeholder="Ursache ..."></textarea>
 		</div> 
 		</li>		<li id="li_4" >
 		<label class="description" for="entschuldtigt">Entschuldigung </label>
