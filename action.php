@@ -14,7 +14,7 @@ include_once "Handler/usefullFuncs.php";
 $name = "";
 $time = 0;
 $ursache = "";
-$entschuldtigt=0;
+$entschuldtigt = false;
 $form_id =0;
 
 
@@ -33,10 +33,12 @@ if(isset($_POST['name']) AND $inputHandler->isString($_POST['name'])){
 }
 
 if(isset($_POST['time']) AND $inputHandler->isInt($_POST['time'])){
-	$time = $_POST['time'];
-    if($time != $inputHandler->date($time)){
-        echo "keine Zeit angegeben";
-    }
+	if($_POST['time'] < 280){
+		$time = $_POST['time'];
+	}else{
+		$time = 270;
+	}
+		
 }else{
 	echo "keine Zeit angegeben";
 }
@@ -49,13 +51,9 @@ if(isset($_POST['ursache']) AND $inputHandler->isString($_POST['ursache'])){
 }
 
 if(isset($_POST['entschuldtigt']) AND $inputHandler->isInt($_POST['entschuldtigt'])){
-	if($_POST['entschuldtigt'] == 1 or $_POST['entschuldtigt'] == 0){
-		$entschuldtigt=$_POST['entschuldtigt'];
-
-	}else{
-		$entschuldtigt=0;
-	}
-	
+	if($_POST['entschuldtigt'] == 1){
+		$entschuldtigt = true;
+	}	
 }
 
 if(isset($_POST['form_id']) AND $inputHandler->isInt($_POST['form_id'])){

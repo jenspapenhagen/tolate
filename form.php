@@ -30,7 +30,6 @@
 		</li>		<li id="li_2" >
 		<label class="description" for="ursache">Ursache </label>
 		<div>
-			<input id="ursache" name="ursache" class="element text medium" type="text" maxlength="255" value=""/> 
 		</div> 
 		</li>		<li id="li_4" >
 		<label class="description" for="entschuldtigt">Entschuldigung </label>

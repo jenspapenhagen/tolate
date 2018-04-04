@@ -9,7 +9,7 @@ include_once "Handler/Constants.php";
 //id date name delaytime ursache entschuldigt
 $dbHandler = new dbHandler;
 echo '<center><table  class="rand08" >';
-echo "<tr><th>Name</th><th>Verspätung in Minuten</th><th>Grund</th><th>Entschuldigt</th></tr>"."\n";
+echo "<tr><th>Name</th><th>Verspätung in Minuten</th><th>Ursache</th><th>Entschuldigt</th></tr>"."\n";
 
 foreach ($dbHandler->findAllbyToday()as $row) {
     echo "<tr>";
