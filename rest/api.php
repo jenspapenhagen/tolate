@@ -1,4 +1,8 @@
 <?php
+//var_dump($_SERVER['REQUEST_METHOD'],$_SERVER['PATH_INFO']); die();
+
+include_once "../Handler/Constants.php";
+
 interface DatabaseInterface {
 	public function getSql($name);
 	public function connect($hostname,$username,$password,$database,$port,$socket,$charset);
@@ -22,6 +26,8 @@ interface DatabaseInterface {
 	public function jsonEncode($object);
 	public function jsonDecode($string);
 }
+
+
 
 class MySQL implements DatabaseInterface {
 
@@ -2034,9 +2040,7 @@ class PHP_CRUD_API {
 				$first_row = true;
 				foreach ($select[$table] as $field => $path) {
 					$values = $collect[$path[0]][$path[1]];
-					if ($values) {
-						$this->addFilter($filters,$table,'and',$field,'in',implode(',',$values));
-					}
+					$this->addFilter($filters,$table,'and',$field,'in',implode(',',$values));
 					if ($first_row) $first_row = false;
 					else echo ',';
 					echo '"'.$field.'":"'.implode('.',$path).'"';
@@ -2701,38 +2705,14 @@ class PHP_CRUD_API {
 	}
 }
 
- require 'auth.php'; // from the PHP-API-AUTH project, see: https://github.com/mevdschee/php-api-auth
-
-// uncomment the lines below for token+session based authentication (see "login_token.html" + "login_token.php"):
- $auth = new PHP_API_AUTH(array(
- 	'secret'=>'someVeryLongPassPhraseChangeMe',
- ));
- if ($auth->executeCommand()) exit(0);
- if (empty($_SESSION['user']) || !$auth->hasValidCsrfToken()) {
-	header('HTTP/1.0 401 Unauthorized');
-	exit(0);
- }
-
-
-// uncomment the lines below when running in stand-alone mode:
-
  $api = new PHP_CRUD_API(array(
- 	'dbengine'=>'MySQL',
- 	'hostname'=>'127.0.0.1',
- 	'username'=>'root',
- 	'password'=>'',
- 	'database'=>'tolate',
+ 	'dbengine'=>Constants::$databaseDriver,
+ 	'hostname'=>Constants::$databaseHost,
+ 	'username'=>Constants::$databaseUser,
+ 	'password'=>Constants::$databasePass,
+ 	'database'=>Constants::$databaseName,
  	'charset'=>'utf8mb4'
  ));
  $api->executeCommand();
 
-
-
-// For SQLite 3 use:
-
-// $api = new PHP_CRUD_API(array(
-// 	'dbengine'=>'SQLite',
-// 	'database'=>'data/blog.db',
-// ));
-// $api->executeCommand();
 
