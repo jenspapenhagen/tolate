@@ -29,7 +29,7 @@ class ConnectionProvider {
 		        case "SqlLite":
 		            $connectionTyp = "sqlite:".$_SERVER["DOCUMENT_ROOT"]."/db/database.db";
 		            break;
-		        case "MySql":
+		        case "MySQL":
 		            $connectionTyp = "mysql:host=".Constants::$databaseHost.";dbname=".Constants::$databaseName.";charset=utf8";
 			        break;
                 case "MSSql":
